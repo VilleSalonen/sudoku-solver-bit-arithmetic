@@ -62,6 +62,6 @@ class SudokuTests(unittest.TestCase):
                           "?", "?",   3,  "?", "?",   5,  "?",   2,   7,
                           "?", "?",   4,    2, "?", "?",  "?", "?",   9,
                           "?", "?",   6,  "?", "?", "?",  "?", "?",   1]
-        hard_input = "600000100700006800480100200000708003000401000900602000003005027004200009006000001"
-        bit_table = solve_input(hard_input)
+        evil_input = "600000100700006800480100200000708003000401000900602000003005027004200009006000001"
+        bit_table = solve_input(evil_input)
         self.assertEqual(expected_table, convert_bit_table_to_human_table(bit_table))
