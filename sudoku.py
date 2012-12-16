@@ -5,10 +5,17 @@ from sudoku_logic import *
 
 def solve_input(input):
     table = initialize(input)
-    print "In the beginning, %d locked numbers" % count_solved_numbers(table)
+
+    original_locked_numbers = count_solved_numbers(table)
     table = solve(table)
-    print "In the end, %d locked numbers" % count_solved_numbers(table)
-    print_human_table(table)
+    solved_numbers = count_solved_numbers(table)
+
+    if solved_numbers == 81:
+        print_human_table(table)
+    else:
+        print "Originally %d locked numbers" % (original_locked_numbers)
+        print "In the end %d solved numbers" % (solved_numbers)
+        print_bit_table(table)
 
     return table
 

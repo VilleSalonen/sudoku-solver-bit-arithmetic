@@ -88,3 +88,25 @@ def print_human_table(table):
     for cell_ix in xrange(0, 81):
         if cell_ix != 0 and cell_ix % 9 == 0: print
         print table[cell_ix],
+
+def print_bit_table(table):
+    for cell_ix in xrange(0, 81):
+        if cell_ix in [0, 27, 54]:
+            print
+            print "-" * (9 * (9 + 1) + 3)
+        if get_col_ix(cell_ix) in [3, 6]:
+            print "|",
+
+        if cell_ix != 0 and cell_ix % 9 == 0 and cell_ix not in [0, 27, 54]: print
+        print _format_bit_candidate_to_human_readable(table[cell_ix]),
+    print
+    print "-" * (9 * (9 + 1) + 3)
+
+def _format_bit_candidate_to_human_readable(cell):
+    output = ""
+    for cand in [256, 128, 64, 32, 16, 8, 4, 2, 1]:
+        if cell & cand:
+            output += "1"
+        else:
+            output += "0"
+    return output
