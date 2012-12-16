@@ -37,6 +37,7 @@ def get_box_ix(cell_ix):
 
 def initialize(input):
     all = 256 + 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1
+    sudoku_to_bit_conversion = {1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64, 8: 128, 9: 256}
 
     table = []
     for i in xrange(0, 81):
@@ -47,8 +48,26 @@ def initialize(input):
         current_cell = input[i]
         cell_value = int(current_cell)
         if cell_value != 0:
-            table[i] = cell_value
+            table[i] = sudoku_to_bit_conversion[cell_value]
         else:
             table[i] = all
 
     return table
+
+def count_solved_numbers(table):
+    numbers = 0
+    for cell_ix in xrange(0, 81):
+        if count_set_bits(table[cell_ix]) == 1:
+            numbers += 1
+    return numbers
+
+def count_set_bits(input):
+    amount = 0
+    for i in xrange(0, 9):
+        if (input & (1 << i)):
+            amount += 1
+    return amount
+
+def convert_human_table_to_bit_table(table):
+    sudoku_to_bit_conversion = {1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64, 8: 128, 9: 256}
+    return [sudoku_to_bit_conversion[cell] for cell in table]
