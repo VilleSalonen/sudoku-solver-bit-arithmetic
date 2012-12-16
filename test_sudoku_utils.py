@@ -60,3 +60,22 @@ class SudokuUtilsTests(unittest.TestCase):
 
     def test_get_col_ix__from_right_top_corner__in_last_col(self):
         self.assertEqual(8, get_col_ix(8))
+
+
+    def test_initialize__valid_input__returns_valid_table(self):
+        all = 256 + 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1
+        expected_table = [all, all,   4,   7, all,   2, all, all, all,
+                          all, all,   2,   1,   9, all,   3,   5,   6,
+                            6, all, all, all,   8,   3, all, all, all,
+
+                            1, all,   8, all,   5,   7, all, all, all,
+                          all,   9, all, all,   4, all, all,   3, all,
+                          all, all, all,   3,   2, all,   5, all,   8,
+
+                          all, all, all,   2,   7, all, all, all,   3,
+                            9,   8,   1, all,   3,   6,   7, all, all,
+                          all, all, all,   8, all,   5,   4, all, all]
+        input = "004702000002190356600083000108057000090040030000320508000270003981036700000805400"
+        table = initialize(input)
+        self.assertEqual(expected_table, table)
+

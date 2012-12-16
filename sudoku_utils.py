@@ -34,3 +34,21 @@ def get_col_ix(cell_ix):
 
 def get_box_ix(cell_ix):
     return ((cell_ix / 3) % 3) + ((cell_ix / 27) * 3)
+
+def initialize(input):
+    all = 256 + 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1
+
+    table = []
+    for i in xrange(0, 81):
+        table.append(0)
+
+    length = len(input)
+    for i in xrange(0, length):
+        current_cell = input[i]
+        cell_value = int(current_cell)
+        if cell_value != 0:
+            table[i] = cell_value
+        else:
+            table[i] = all
+
+    return table
