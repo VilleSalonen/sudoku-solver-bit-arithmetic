@@ -14,4 +14,7 @@
 # Executables
 *.exe
 *.out
-*.app
+*.
+
+# PyCharm
+.idea
