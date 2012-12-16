@@ -78,7 +78,7 @@ def _lock_last_occurrences(table):
 
     return table
 
-def find_pair_lock(bit_table):
+def find_pair_locks(bit_table):
     sudoku_to_bit_conversion = {1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64, 8: 128, 9: 256}
 
     box_candidate_pairs = []
@@ -123,6 +123,29 @@ def find_pair_lock(bit_table):
                 candidate_pairs.append({ "value": k, "box": box, "cell_ixs": candidate_pair, "row": row, "col": col })
 
     return candidate_pairs
+
+
+def eliminate_with_pair_locks(table, pair_locks):
+    sudoku_to_bit_conversion = {1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64, 8: 128, 9: 256}
+
+    for cell_ix in xrange(0, 81):
+        row_ix = get_row_ix(cell_ix)
+        col_ix = get_col_ix(cell_ix)
+        box_ix = get_box_ix(cell_ix)
+
+        for pair_lock in pair_locks:
+            if pair_lock["box"] == box_ix:
+                # Don't eliminate from the same box where pair lock was found
+                continue
+
+            if pair_lock["row"] != -1 and pair_lock["row"] == row_ix:
+                table[cell_ix] ^= (table[cell_ix] & sudoku_to_bit_conversion[pair_lock["value"]])
+                continue
+            if pair_lock["col"] != -1 and pair_lock["col"] == col_ix:
+                table[cell_ix] ^= (table[cell_ix] & sudoku_to_bit_conversion[pair_lock["value"]])
+                continue
+
+    return table
 
 
 
