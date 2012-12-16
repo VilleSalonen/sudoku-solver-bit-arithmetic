@@ -1,1 +1,0 @@
-unsigned short cell_could_contain(unsigned short cell, unsigned short value);
