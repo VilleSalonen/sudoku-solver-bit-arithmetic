@@ -78,6 +78,52 @@ def _lock_last_occurrences(table):
 
     return table
 
+def find_pair_lock(bit_table):
+    sudoku_to_bit_conversion = {1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64, 8: 128, 9: 256}
+
+    box_candidate_pairs = []
+    for i in xrange(0, 9):
+        box_candidate_pairs.append({1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []})
+
+    for cell_ix in xrange(0, 81):
+        cell = bit_table[cell_ix]
+        if count_set_bits(cell) == 1:
+            continue
+
+        box_ix = get_box_ix(cell_ix)
+
+        for value in xrange(1, 10):
+            bit_value = sudoku_to_bit_conversion[value]
+            if cell_could_contain(cell, bit_value):
+                box_candidate_pairs[box_ix][value].append(cell_ix)
+
+    candidate_pairs = []
+    for i in xrange(0, 9):
+        for k in xrange(1, 10):
+            candidate_pair = box_candidate_pairs[i][k]
+            if len(candidate_pair) == 2:
+                value = k
+                box = get_box_ix(candidate_pair[0])
+
+                first_col_ix = get_col_ix(candidate_pair[0])
+                first_row_ix = get_row_ix(candidate_pair[0])
+                second_col_ix = get_col_ix(candidate_pair[1])
+                second_row_ix = get_row_ix(candidate_pair[1])
+
+                if (first_col_ix == second_col_ix):
+                    row = -1
+                    col = first_col_ix
+                elif (first_row_ix == second_row_ix):
+                    row = first_row_ix
+                    col = -1
+                else:
+                    # Pair is not on same row or column so it cannot be used
+                    continue
+
+                candidate_pairs.append({ "value": k, "box": box, "cell_ixs": candidate_pair, "row": row, "col": col })
+
+    return candidate_pairs
+
 
 
 
