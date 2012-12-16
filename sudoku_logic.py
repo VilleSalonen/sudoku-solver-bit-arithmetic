@@ -79,6 +79,8 @@ def _lock_last_occurrences(table):
     return table
 
 
+
+
 def solve(table):
     solved_before = count_solved_numbers(table)
     solved_after = solved_before

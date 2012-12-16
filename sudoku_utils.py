@@ -71,3 +71,14 @@ def count_set_bits(input):
 def convert_human_table_to_bit_table(table):
     sudoku_to_bit_conversion = {1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64, 8: 128, 9: 256}
     return [sudoku_to_bit_conversion[cell] for cell in table]
+
+def convert_bit_table_to_human_table(table):
+    bit_to_human_conversion = {1: 1, 2: 2, 4: 3, 8: 4, 16: 5, 32: 6, 64: 7, 128: 8, 256: 9}
+    return [bit_to_human_conversion[cell] for cell in table]
+
+
+def print_human_table(table):
+    table = convert_bit_table_to_human_table(table)
+    for cell_ix in xrange(0, 81):
+        if cell_ix != 0 and cell_ix % 9 == 0: print
+        print table[cell_ix],

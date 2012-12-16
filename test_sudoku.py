@@ -33,3 +33,18 @@ class SudokuTests(unittest.TestCase):
         expected_table = convert_human_table_to_bit_table(expected_table)
         easy_input = "259000000000003009000957040940000507120000094507000036090124000400300000000000423"
         self.assertEqual(expected_table, solve_input(easy_input))
+
+    def test_solve__hard_input__returns_solved(self):
+        # Source: http://www.websudoku.com/?level=3&set_id=6530973795
+        expected_table = [5, 4, 3,  8, 1, 7,  9, 6, 2,
+                          6, 8, 7,  2, 5, 9,  1, 3, 4,
+                          9, 1, 2,  6, 3, 4,  5, 8, 7,
+                          1, 2, 6,  3, 9, 8,  4, 7, 5,
+                          7, 3, 4,  5, 2, 1,  6, 9, 8,
+                          8, 9, 5,  7, 4, 6,  3, 2, 1,
+                          3, 7, 8,  4, 6, 5,  2, 1, 9,
+                          4, 6, 9,  1, 8, 2,  7, 5, 3,
+                          2, 5, 1,  9, 7, 3,  8, 4, 6]
+        expected_table = convert_human_table_to_bit_table(expected_table)
+        hard_input = "003007060600250000900000080020300070004501600090006020070000009000082003050900800"
+        self.assertEqual(expected_table, solve_input(hard_input))
