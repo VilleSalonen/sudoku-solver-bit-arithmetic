@@ -1,5 +1,4 @@
 import unittest
-from sudoku_utils import *
 from sudoku_logic import *
 
 class SudokuUtilsTests(unittest.TestCase):
