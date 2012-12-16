@@ -31,8 +31,8 @@ class SudokuTests(unittest.TestCase):
                           4, 7, 2,  3, 6, 5,  9, 8, 1,
                           6, 1, 5,  7, 9, 8,  4, 2, 3]
         expected_table = convert_human_table_to_bit_table(expected_table)
-        easy_input = "259000000000003009000957040940000507120000094507000036090124000400300000000000423"
-        self.assertEqual(expected_table, solve_input(easy_input))
+        medium_input = "259000000000003009000957040940000507120000094507000036090124000400300000000000423"
+        self.assertEqual(expected_table, solve_input(medium_input))
 
     def test_solve__hard_input__returns_solved(self):
         # Source: http://www.websudoku.com/?level=3&set_id=6530973795
