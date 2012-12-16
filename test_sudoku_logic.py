@@ -19,6 +19,7 @@ class SudokuUtilsTests(unittest.TestCase):
                      146, 338,  32,  388, 460, 332,   28, 156,   1]
         expected = { "value": 3, "box": 0, "cell_ixs": [1, 10], "col": 1, "row": -1 }
         result = find_pair_locks(bit_table)
+        self.assertEqual(17, len(result))
         self.assertEqual(True, expected in result)
 
     def test_eliminate_with_pair_locks__one_pair_lock__should_eliminate(self):
