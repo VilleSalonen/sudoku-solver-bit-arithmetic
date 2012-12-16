@@ -103,10 +103,11 @@ def print_bit_table(table):
     print "-" * (9 * (9 + 1) + 3)
 
 def _format_bit_candidate_to_human_readable(cell):
+    bit_to_human_conversion = {1: 1, 2: 2, 4: 3, 8: 4, 16: 5, 32: 6, 64: 7, 128: 8, 256: 9}
     output = ""
     for cand in [256, 128, 64, 32, 16, 8, 4, 2, 1]:
         if cell & cand:
-            output += "1"
+            output += str(bit_to_human_conversion[cand])
         else:
             output += "0"
     return output
