@@ -83,6 +83,11 @@ def _convert(cell):
         return "?"
 
 
+def print_table(table):
+    for cell_ix in xrange(0, 81):
+        if cell_ix != 0 and cell_ix % 9 == 0: print
+        print table[cell_ix],
+
 def print_human_table(table):
     table = convert_bit_table_to_human_table(table)
     for cell_ix in xrange(0, 81):

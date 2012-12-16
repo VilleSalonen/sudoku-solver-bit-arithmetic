@@ -87,9 +87,6 @@ def find_pair_locks(bit_table):
 
     for cell_ix in xrange(0, 81):
         cell = bit_table[cell_ix]
-        if count_set_bits(cell) == 1:
-            continue
-
         box_ix = get_box_ix(cell_ix)
 
         for value in xrange(1, 10):
@@ -160,6 +157,12 @@ def solve(table):
 
         table = _basic_elimination(table)
         table = _lock_last_occurrences(table)
+
+        print_bit_table(table)
+        print_table(table)
+        pair_locks = find_pair_locks(table)
+        table = eliminate_with_pair_locks(table, pair_locks)
+
         print "Step %d: %s" % (step, str(table))
 
         solved_after = count_solved_numbers(table)
