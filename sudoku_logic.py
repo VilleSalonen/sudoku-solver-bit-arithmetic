@@ -1,3 +1,6 @@
+from itertools import groupby
+import operator
+
 from sudoku_utils import *
 
 
@@ -145,6 +148,34 @@ def eliminate_with_pair_locks(table, pair_locks):
     return table
 
 
+def find_naked_pairs(table):
+    pairs = []
+
+    for cell_ix in xrange(0, 81):
+        box_ix = get_box_ix(cell_ix)
+
+        if count_set_bits(table[cell_ix]) == 2:
+            pairs.append({ "value": table[cell_ix], "cell_ix": cell_ix, "box_ix": box_ix })
+
+    pairs_confirmed = []
+
+    for box_ix in xrange(0, 81):
+        pairs_in_this_box = [(pair["value"], pair) for pair in pairs if pair["box_ix"] == box_ix]
+
+        pairs_grouped_by_value = groupby(pairs_in_this_box, operator.itemgetter(0))
+        for key, items in pairs_grouped_by_value:
+            bar1 = list(items)
+            if len(bar1) == 2:
+                pairs_confirmed.append(bar1)
+
+    naked_pairs = []
+    for pair_confirmed in pairs_confirmed:
+        box_ix = pair_confirmed[0][1]["box_ix"]
+        value = pair_confirmed[0][1]["value"]
+        cell_ixs = [item[1]["cell_ix"] for item in pair_confirmed]
+        naked_pairs.append({"box_ix": box_ix, "value": value, "cell_ixs": cell_ixs})
+
+    return naked_pairs
 
 
 def solve(table):

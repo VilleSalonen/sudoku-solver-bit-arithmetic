@@ -16,6 +16,7 @@ def solve_input(input):
         print "Originally %d locked numbers" % (original_locked_numbers)
         print "In the end %d solved numbers" % (solved_numbers)
         print_bit_table(table)
+        print_table(table)
 
     return table
 
