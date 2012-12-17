@@ -206,8 +206,12 @@ def solve(table):
 
         print_bit_table(table)
         print_table(table)
+
         pair_locks = find_pair_locks(table)
         table = eliminate_with_pair_locks(table, pair_locks)
+
+        naked_pairs = find_naked_pairs(table)
+        table = eliminate_with_naked_pairs(table, naked_pairs)
 
         print "Step %d: %s" % (step, str(table))
 
