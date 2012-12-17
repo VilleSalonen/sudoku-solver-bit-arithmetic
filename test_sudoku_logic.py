@@ -79,3 +79,32 @@ class SudokuLogicTests(unittest.TestCase):
         expected2 = { "value": 3, "box_ix": 3, "cell_ixs": [27, 29]}
         result = find_naked_pairs(bit_table)
         self.assertTrue(expected1 in result and expected2 in result)
+
+
+    def test_eliminate_naked_pairs__two_naked_pairs__should_eliminate_naked_pair_candidates_from_other_cells_in_same_box(self):
+        expected = [32,6,274,404,138,268,1,64,24,
+                    64,7,275,276,10,32,128,260,24,
+                    8,128,272,1,64,260,2,260,32,
+
+                    3,40,3,64,16,128,256,41,4,
+                    4,48,128,8,256,1,64,48,2,
+                    256,24,64,32,4,2,24,25,128,
+
+                    129,257,4,384,169,16,40,2,64,
+                    145,65,8,2,161,68,52,144,256,
+                    146,322,32,388,136,332,28,152,1]
+
+        bit_table = [32,6,274,404,138,268,1,64,24,
+                     64,7,275,276,10,32,128,284,24,
+                     8,128,272,1,64,260,2,276,32,
+
+                     3,43,3,64,16,128,256,41,4,
+                     4,48,128,8,256,1,64,48,2,
+                     256,25,64,32,4,2,24,25,128,
+
+                     129,257,4,384,169,16,40,2,64,
+                     145,65,8,2,161,68,52,144,256,
+                     146,322,32,388,136,332,28,152,1]
+        given_naked_pairs = [{ "value": 24, "box_ix": 2, "cell_ixs": [8, 17]}, { "value": 3, "box_ix": 3, "cell_ixs": [27, 29]}]
+        result = eliminate_with_naked_pairs(bit_table, given_naked_pairs)
+        self.assertEqual(expected, result)

@@ -178,6 +178,21 @@ def find_naked_pairs(table):
     return naked_pairs
 
 
+def eliminate_with_naked_pairs(table, naked_pairs):
+    table = list(table)
+
+    for cell_ix in xrange(0, 81):
+        box_ix = get_box_ix(cell_ix)
+        for naked_pair in naked_pairs:
+            if box_ix != naked_pair["box_ix"]:
+                continue
+            if cell_ix in naked_pair["cell_ixs"]:
+                continue
+            table[cell_ix] = table[cell_ix] ^ (table[cell_ix] & naked_pair["value"])
+
+    return table
+
+
 def solve(table):
     solved_before = count_solved_numbers(table)
     solved_after = solved_before
