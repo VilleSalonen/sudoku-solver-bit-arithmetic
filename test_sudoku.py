@@ -3,19 +3,20 @@ from sudoku import *
 
 class SudokuTests(unittest.TestCase):
     def test_solve__easy_input__returns_solved(self):
-        expected_table = [3, 5, 4,  7, 6, 2,  9, 8, 1,
-                          8, 7, 2,  1, 9, 4,  3, 5, 6,
-                          6, 1, 9,  5, 8, 3,  2, 7, 4,
+        # Source: http://www.websudoku.com/?level=1&set_id=10206368615
+        expected_table = [8, 7, 9,  3, 2, 5,  1, 6, 4,
+                          6, 4, 5,  1, 8, 7,  9, 3, 2,
+                          1, 3, 2,  9, 4, 6,  5, 7, 8,
 
-                          1, 3, 8,  9, 5, 7,  6, 4, 2,
-                          2, 9, 5,  6, 4, 8,  1, 3, 7,
-                          4, 6, 7,  3, 2, 1,  5, 9, 8,
+                          5, 9, 6,  2, 7, 3,  4, 8, 1,
+                          2, 8, 7,  5, 1, 4,  3, 9, 6,
+                          4, 1, 3,  8, 6, 9,  7, 2, 5,
 
-                          5, 4, 6,  2, 7, 9,  8, 1, 3,
-                          9, 8, 1,  4, 3, 6,  7, 2, 5,
-                          7, 2, 3,  8, 1, 5,  4, 6, 9]
+                          7, 2, 8,  4, 9, 1,  6, 5, 3,
+                          3, 6, 4,  7, 5, 2,  8, 1, 9,
+                          9, 5, 1,  6, 3, 8,  2, 4, 7]
         expected_table = convert_human_table_to_bit_table(expected_table)
-        easy_input = "004702000002190356600083000108057000090040030000320508000270003981036700000805400"
+        easy_input = "009000060040100902130940078506070480080000090013060705720091053304002010050000200"
         self.assertEqual(expected_table, solve_input(easy_input))
 
     def test_solve__medium_input__returns_solved(self):
