@@ -194,3 +194,21 @@ class SudokuLogicTests(unittest.TestCase):
 
         result = line_lock_elimination(bit_table)
         self.assertEqual(expected, result)
+
+
+    def test_find_hidden_sets__hidden_set_1_6_in_col7__returns_hidden_set(self):
+        bit_table = [ 32,   6, 258,  404, 138, 268,    1,  64,  24,
+                      64,   7, 259,  276,  10,  32,  128, 260,  24,
+                      8, 128,  16,    1,  64, 260,    2, 260,  32,
+
+                      3,  40,   3,   64,  16, 128,  256,  40,   4,
+                      4,  48, 128,    8, 256,   1,   64,  48,   2,
+                      256,  24,  64,   32,   4,   2,   24,   1, 128,
+
+                      129, 257,   4,  384, 169,  16,   40,   2,  64,
+                      145,  65,   8,    2, 161,  68,   52, 144, 256,
+                      146, 322,  32,  388, 136, 332,   28, 152,   1]
+
+        expected = { "box_ix": 7, "values": [1, 6], "cell_ixs": [58, 67] }
+        result = find_hidden_sets(bit_table)
+        self.assertIn(expected, result)

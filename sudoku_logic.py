@@ -257,6 +257,49 @@ def line_lock_elimination(table):
     return table
 
 
+def find_hidden_sets(table):
+    sudoku_to_bit_conversion = {1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64, 8: 128, 9: 256}
+
+    value_counts_and_positions = {}
+    for box_ix in xrange(0, 9):
+        value_counts_and_positions[box_ix] = {}
+        for value_ix in xrange(1, 10):
+            value_counts_and_positions[box_ix][value_ix] = []
+
+    for cell_ix in xrange(0, 81):
+        box_ix = get_box_ix(cell_ix)
+        for value_ix in xrange(1, 10):
+            if cell_could_contain(table[cell_ix], sudoku_to_bit_conversion[value_ix]):
+                value_counts_and_positions[box_ix][value_ix].append(cell_ix)
+
+    matched = []
+
+    for box_ix in xrange(0, 9):
+        # Adapted from here: http://stackoverflow.com/questions/1241029/how-to-filter-a-dictionary-by-value
+        sorted_data = sorted(value_counts_and_positions[box_ix].items(), key = lambda x: x[1])
+        groups = groupby(sorted_data, key = lambda x: x[1])
+
+        for key, group in groups:
+            group = list(group)
+            if len(group) != 1:
+                matched.append((box_ix, dict(group)))
+
+    result = []
+    for x in matched:
+        box_ix = x[0]
+
+        # We're only interested in matches which have lists with length of 2.
+        if len(x[1].items()[0][1]) != 2:
+            continue
+
+        values = [item[0] for item in x[1].items()]
+        positions = x[1].items()[0][1]
+
+        result.append({ "box_ix": box_ix, "values": sorted(values), "cell_ixs": sorted(positions) })
+
+    return result
+
+
 def solve(table):
     solved_bits_before = count_set_bits_in_table(table)
     solved_bits_after = solved_bits_before
