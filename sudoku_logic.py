@@ -300,6 +300,24 @@ def find_hidden_sets(table):
     return result
 
 
+def eliminate_with_hidden_sets(table, hidden_sets):
+    sudoku_to_bit_conversion = {1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64, 8: 128, 9: 256}
+
+    for cell_ix in xrange(0, 81):
+        for hidden_set in hidden_sets:
+            box_ix = get_box_ix(cell_ix)
+
+            if box_ix != hidden_set["box_ix"]:
+                continue
+
+            hidden_set_bit_value = sum([sudoku_to_bit_conversion[value] for value in hidden_set["values"]])
+
+            if cell_ix in hidden_set["cell_ixs"]:
+                table[cell_ix] = hidden_set_bit_value
+
+    return table
+
+
 def solve(table):
     solved_bits_before = count_set_bits_in_table(table)
     solved_bits_after = solved_bits_before
