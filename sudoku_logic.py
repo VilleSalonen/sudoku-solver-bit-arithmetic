@@ -322,8 +322,6 @@ def solve(table):
     solved_bits_before = count_set_bits_in_table(table)
     solved_bits_after = solved_bits_before
 
-    step = 1
-
     while (True):
         solved_bits_before = solved_bits_after
 
@@ -340,16 +338,12 @@ def solve(table):
         hidden_sets = find_hidden_sets(table)
         table = eliminate_with_hidden_sets(table, hidden_sets)
 
-        print "Step %d: %s" % (step, str(table))
-
         solved_after = count_solved_numbers(table)
         solved_bits_after = count_set_bits_in_table(table)
 
         if (solved_bits_before == solved_bits_after):
-            return table
+            break
         if (solved_after == 81):
-            return table
-
-        step += 1
+            break
 
     return table
