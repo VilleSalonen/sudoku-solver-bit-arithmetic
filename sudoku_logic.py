@@ -337,6 +337,9 @@ def solve(table):
         naked_pairs = find_naked_pairs(table)
         table = eliminate_with_naked_pairs(table, naked_pairs)
 
+        hidden_sets = find_hidden_sets(table)
+        table = eliminate_with_hidden_sets(table, hidden_sets)
+
         print "Step %d: %s" % (step, str(table))
 
         solved_after = count_solved_numbers(table)
