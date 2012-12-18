@@ -215,24 +215,31 @@ def line_lock_elimination(table):
 
 
     for cell_ix in xrange(0, 81):
+        cells_row = get_row_ix(cell_ix)
+        cells_col = get_col_ix(cell_ix)
+
         for value in xrange(1, 10):
-            # Number is already locked, so it is of course found only once on its row and column.
-            if count_set_bits(table[cell_ix]) == 1:
+            if count_set_bits(table[cell_ix]) == 1 and sudoku_to_bit_conversion[value] == table[cell_ix]:
+                # If this number is already locked in this cell, it cannot be
+                # found elsewhere on this row or column.
+                if valueCountsOnRow[cells_row][value] != MULTIPLE_OCCURRENCES_FOUND:
+                    valueCountsOnRow[cells_row][value] = MULTIPLE_OCCURRENCES_FOUND
+
+                if valueCountsOnCol[cells_col][value] != MULTIPLE_OCCURRENCES_FOUND:
+                    valueCountsOnCol[cells_col][value] = MULTIPLE_OCCURRENCES_FOUND
+
                 continue
 
             # Number not found.
             if not cell_could_contain(table[cell_ix], sudoku_to_bit_conversion[value]):
                 continue
 
-            cells_row = get_row_ix(cell_ix)
             if valueCountsOnRow[cells_row][value] != MULTIPLE_OCCURRENCES_FOUND:
                 if valueCountsOnRow[cells_row][value] == NO_OCCURRENCES_FOUND_YET:
                     valueCountsOnRow[cells_row][value] = cell_ix
                 else:
                     valueCountsOnRow[cells_row][value] = MULTIPLE_OCCURRENCES_FOUND
 
-
-            cells_col = get_col_ix(cell_ix)
             if valueCountsOnCol[cells_col][value] != MULTIPLE_OCCURRENCES_FOUND:
                 if valueCountsOnCol[cells_col][value] == NO_OCCURRENCES_FOUND_YET:
                     valueCountsOnCol[cells_col][value] = cell_ix
@@ -260,9 +267,7 @@ def solve(table):
 
         table = _basic_elimination(table)
         table = _lock_last_occurrences(table)
-
-        print_bit_table(table)
-        print_table(table)
+        table = line_lock_elimination(table)
 
         pair_locks = find_pair_locks(table)
         table = eliminate_with_pair_locks(table, pair_locks)

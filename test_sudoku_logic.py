@@ -165,3 +165,32 @@ class SudokuLogicTests(unittest.TestCase):
 
         result = line_lock_elimination(bit_table)
         self.assertEqual(expected, result)
+
+
+    def test_line_lock_elimination__locked_numbers_on_col_2__should_not_try_to_relock_already_locked_numbers(self):
+        bit_table = [128,  64, 256,  214, 150, 212,   21,  32,   8,
+                      32,   8, 208,    1, 148, 244,  256,   4,   2,
+                       1,   4,  18,  256,   8,  48,   16,  64, 128,
+
+                      16, 256,  32,    6,  64, 260,    8, 128,   1,
+                      10, 128,  64,   30,   1,  28,    4, 256,  33,
+                     266,   1,   4,  138,  32, 392,   64,   2,  16,
+
+                      64,   2, 128,  168, 256,   1,  160,  16,   4,
+                       4, 288,   8,  240, 144,   2,  160,   1, 320,
+                     416,  16,   1,  228, 132, 196,    2,   8, 328]
+
+        expected =  [128,  64, 256,  214,   2, 212,    1,  32,   8,
+                      32,   8, 208,    1, 148, 244,  256,   4,   2,
+                       1,   4,  18,  256,   8,  48,   16,  64, 128,
+
+                      16, 256,  32,    6,  64, 260,    8, 128,   1,
+                      10, 128,  64,   30,   1,  28,    4, 256,  33,
+                     266,   1,   4,  138,  32, 392,   64,   2,  16,
+
+                      64,   2, 128,  168, 256,   1,  160,  16,   4,
+                       4, 288,   8,  240, 144,   2,  160,   1, 320,
+                     416,  16,   1,  228, 132, 196,    2,   8, 328]
+
+        result = line_lock_elimination(bit_table)
+        self.assertEqual(expected, result)
