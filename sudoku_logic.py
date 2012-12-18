@@ -193,6 +193,63 @@ def eliminate_with_naked_pairs(table, naked_pairs):
     return table
 
 
+def line_lock_elimination(table):
+    sudoku_to_bit_conversion = {1: 1, 2: 2, 3: 4, 4: 8, 5: 16, 6: 32, 7: 64, 8: 128, 9: 256}
+
+    NO_OCCURRENCES_FOUND_YET = -1
+    MULTIPLE_OCCURRENCES_FOUND = -2
+
+    table = list(table)
+
+    valueCountsOnRow = {}
+    valueCountsOnCol = {}
+
+    for line_ix in xrange(0, 9):
+        valueCountsOnRow[line_ix] = {}
+        valueCountsOnCol[line_ix] = {}
+
+        for value in xrange(1, 10):
+            valueCountsOnRow[line_ix][value] = NO_OCCURRENCES_FOUND_YET
+            valueCountsOnCol[line_ix][value] = NO_OCCURRENCES_FOUND_YET
+
+
+
+    for cell_ix in xrange(0, 81):
+        for value in xrange(1, 10):
+            # Number is already locked, so it is of course found only once on its row and column.
+            if count_set_bits(table[cell_ix]) == 1:
+                continue
+
+            # Number not found.
+            if not cell_could_contain(table[cell_ix], sudoku_to_bit_conversion[value]):
+                continue
+
+            cells_row = get_row_ix(cell_ix)
+            if valueCountsOnRow[cells_row][value] != MULTIPLE_OCCURRENCES_FOUND:
+                if valueCountsOnRow[cells_row][value] == NO_OCCURRENCES_FOUND_YET:
+                    valueCountsOnRow[cells_row][value] = cell_ix
+                else:
+                    valueCountsOnRow[cells_row][value] = MULTIPLE_OCCURRENCES_FOUND
+
+
+            cells_col = get_col_ix(cell_ix)
+            if valueCountsOnCol[cells_col][value] != MULTIPLE_OCCURRENCES_FOUND:
+                if valueCountsOnCol[cells_col][value] == NO_OCCURRENCES_FOUND_YET:
+                    valueCountsOnCol[cells_col][value] = cell_ix
+                else:
+                    valueCountsOnCol[cells_col][value] = MULTIPLE_OCCURRENCES_FOUND
+
+    for i in xrange(0, 9):
+        for value_ix in xrange(1, 10):
+            if valueCountsOnCol[i][value_ix] >= 0:
+                table[valueCountsOnCol[i][value_ix]] = sudoku_to_bit_conversion[value_ix]
+
+            if valueCountsOnRow[i][value_ix] >= 0:
+                table[valueCountsOnRow[i][value_ix]] = sudoku_to_bit_conversion[value_ix]
+
+    return table
+
+
 def solve(table):
     solved_before = count_solved_numbers(table)
     solved_after = solved_before
