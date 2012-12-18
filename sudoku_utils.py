@@ -54,6 +54,12 @@ def initialize(input):
 
     return table
 
+def count_set_bits_in_table(table):
+    solved_bits = 0
+    for cell_ix in xrange(0, 81):
+        solved_bits += count_set_bits(table[cell_ix])
+    return solved_bits
+
 def count_solved_numbers(table):
     numbers = 0
     for cell_ix in xrange(0, 81):

@@ -258,12 +258,13 @@ def line_lock_elimination(table):
 
 
 def solve(table):
-    solved_before = count_solved_numbers(table)
-    solved_after = solved_before
+    solved_bits_before = count_set_bits_in_table(table)
+    solved_bits_after = solved_bits_before
+
     step = 1
 
     while (True):
-        solved_before = solved_after
+        solved_bits_before = solved_bits_after
 
         table = _basic_elimination(table)
         table = _lock_last_occurrences(table)
@@ -278,8 +279,9 @@ def solve(table):
         print "Step %d: %s" % (step, str(table))
 
         solved_after = count_solved_numbers(table)
+        solved_bits_after = count_set_bits_in_table(table)
 
-        if (solved_before == solved_after):
+        if (solved_bits_before == solved_bits_after):
             return table
         if (solved_after == 81):
             return table
