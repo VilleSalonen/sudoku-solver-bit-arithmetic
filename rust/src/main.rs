@@ -6,6 +6,10 @@ pub fn initialize(input: &str) -> Option<[i16; 81]> {
     let all: i16 = 256 + 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1;
     let mut table: [i16; 81] = [all; 81];
 
+    if input.len() != 81 {
+        return None;
+    }
+
     for (i, current_cell) in input.chars().enumerate() {
         table[i] = match current_cell {
             '0' => all,
@@ -30,10 +34,20 @@ mod tests {
     use super::*;
 
     #[test]
-    fn initialize_invalid() {
+    fn initialize_invalid_character() {
         assert_eq!(
             initialize(
                 "x00000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            ),
+            None
+        );
+    }
+
+    #[test]
+    fn initialize_invalid_length() {
+        assert_eq!(
+            initialize(
+                "04702000002190356600083000108057000090040030000320508000270003981036700000805400"
             ),
             None
         );
