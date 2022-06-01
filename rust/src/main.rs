@@ -2,7 +2,9 @@ fn main() {
     println!("Hello, world!");
 }
 
-pub fn initialize(input: &str) -> Option<[i16; 81]> {
+type SudokuTable = [i16; 81];
+
+pub fn initialize(input: &str) -> Option<SudokuTable> {
     let all: i16 = 256 + 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1;
     let mut table: [i16; 81] = [all; 81];
 
