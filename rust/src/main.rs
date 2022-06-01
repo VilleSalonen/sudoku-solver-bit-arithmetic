@@ -44,10 +44,20 @@ mod tests {
     }
 
     #[test]
-    fn initialize_invalid_length() {
+    fn initialize_too_short() {
         assert_eq!(
             initialize(
                 "04702000002190356600083000108057000090040030000320508000270003981036700000805400"
+            ),
+            None
+        );
+    }
+
+    #[test]
+    fn initialize_too_long() {
+        assert_eq!(
+            initialize(
+                "0004702000002190356600083000108057000090040030000320508000270003981036700000805400"
             ),
             None
         );
