@@ -2,7 +2,7 @@ fn main() {
     println!("Hello, world!");
 }
 
-pub fn initialize(input: &str) -> [i16; 81] {
+pub fn initialize(input: &str) -> Option<[i16; 81]> {
     let all: i16 = 256 + 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1;
     let mut table: [i16; 81] = [all; 81];
 
@@ -18,16 +18,26 @@ pub fn initialize(input: &str) -> [i16; 81] {
             '7' => 64,
             '8' => 128,
             '9' => 256,
-            _ => panic!("unknown value"),
+            _ => return None,
         };
     }
 
-    return table;
+    return Some(table);
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn initialize_invalid() {
+        assert_eq!(
+            initialize(
+                "x00000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            ),
+            None
+        );
+    }
 
     #[test]
     fn initialize_all_zeroes() {
@@ -36,7 +46,8 @@ mod tests {
         assert_eq!(
             initialize(
                 "000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-            ),
+            )
+            .unwrap(),
             [all; 81]
         );
     }
@@ -61,7 +72,8 @@ mod tests {
         assert_eq!(
             initialize(
                 "004702000002190356600083000108057000090040030000320508000270003981036700000805400"
-            ),
+            )
+            .unwrap(),
             expected
         );
     }
