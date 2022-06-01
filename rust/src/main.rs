@@ -3,7 +3,7 @@ fn main() {
         "004702000002190356600083000108057000090040030000320508000270003981036700000805400",
     )
     .unwrap();
-    print_table(table);
+    print_human_table(table);
 }
 
 type SudokuTable = [i16; 81];
@@ -35,7 +35,7 @@ pub fn initialize(input: &str) -> Option<SudokuTable> {
     return Some(table);
 }
 
-pub fn print_table(table: SudokuTable) {
+pub fn print_human_table(table: SudokuTable) {
     for (i, cell) in table.iter().enumerate() {
         if i != 0 && i % 9 == 0 {
             println!();
